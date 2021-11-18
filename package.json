@@ -1,0 +1,22 @@
+{
+  "name": "project-ltweb",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "@fortawesome/fontawesome-free": "^5.15.4",
+    "bootstrap": "^5.1.1",
+    "ejs": "^3.1.6",
+    "express": "^4.17.1",
+    "install": "^0.13.0",
+    "msnodesqlv8": "^2.4.0",
+    "mssql": "^7.2.1",
+    "require": "^2.4.20"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}

@@ -1,0 +1,826 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $.get("http://localhost:3009/",function(data,status){
+            $('#laptop-dulieu').html(data);
+            });
+
+            var user = localStorage.getItem("user");
+            if(user === null || user === undefined || user === ""){
+                $("#user").html("Bạn chưa đăng nhập");
+            }
+            else 
+            {
+                var objUser = JSON.parse(user);
+                $("#user").html(" Xin chào  : " + objUser.EMAIL);
+            }
+
+        });
+        function dangxuat(){
+            localStorage.removeItem("user");
+            window.location.href="/dangnhap";
+        }
+        
+        function addtoCart_(productID){
+            var shoppingCART = localStorage.getItem("shoppingCART");
+            if(shoppingCART == null || shoppingCART == undefined){
+                shoppingCART = [productID];
+            }
+            else{
+                shoppingCART = JSON.parse(shoppingCART);
+                if(shoppingCART.indexOf(productID) == -1){
+                    shoppingCART.push(productID);
+                }
+            }
+            localStorage.setItem("shoppingCART", JSON.stringify(shoppingCART))
+        }
+
+        function addtoWishlist(productID){
+            var WISHLIST = localStorage.getItem("WISHLIST");
+            if(WISHLIST == null || WISHLIST == undefined){
+                WISHLIST = [productID];
+                
+            }
+            else{
+                WISHLIST = JSON.parse(WISHLIST);
+                if(WISHLIST.indexOf(productID) == -1){
+                    WISHLIST.push(productID);
+                    
+                }
+            }
+            localStorage.setItem("WISHLIST", JSON.stringify(WISHLIST))
+            alert("Đã thêm vào danh sách.")
+        }
+           
+    //     function addtoCart_(productID){
+    //         var users = localStorage.getItem("user");
+    //         var shoppingCART = localStorage.getItem("shoppingCART");
+    //             if(users == null){
+    //                 alert("Bạn chưa đăng nhập")
+    //             }
+    //             else if(shoppingCART == null || shoppingCART == undefined){
+    //        shoppingCART = [productID];
+    //    }
+    //    else{
+    //        shoppingCART = JSON.parse(shoppingCART);
+    //        if(shoppingCART.indexOf(productID) == -1){
+    //            shoppingCART.push(productID);
+    //        }
+    //    }
+            
+            
+    //         localStorage.setItem("shoppingCART", JSON.stringify(shoppingCART))
+    //     }
+
+        function shoppingcart(){
+            window.location.href="cart"
+        }
+        // function wishlist(){
+        //     window.location.href="wish"
+        // }
+        function TangDan(){
+            
+            $.get("http://localhost:3009/tang",(data,status)=>{
+            $("#laptop-dulieu").html(data)
+            })
+        }
+        function GiamDan(){
+            
+            $.get("http://localhost:3009/giam",(data,status)=>{
+            $("#laptop-dulieu").html(data)
+            })
+        }
+        
+    </script>
+    <link rel="stylesheet" type="text/css" href="style/products.css">
+    <link rel="stylesheet" type="text/css" href="style/base.css">
+    <title>Laptop</title>
+</head>
+<style>
+   
+ul { list-style-type: none; }
+
+a {
+
+  text-decoration: none;
+}
+
+.accordion {
+    width: 100%;
+    max-width: 182px;
+    background: #FFF;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    margin-bottom: 2px;
+}
+
+.accordion .link {
+  cursor: pointer;
+  display: block;
+  padding: 15px;
+
+  font-size: 14px;
+  font-weight: 700;
+  border-bottom: 1px solid #CCC;
+  position: relative;
+  -webkit-transition: all 0.4s ease;
+  -o-transition: all 0.4s ease;
+  transition: all 0.4s ease;
+}
+
+.accordion li:last-child .link { border-bottom: 0; }
+
+.accordion li i {
+  position: absolute;
+  top: 16px;
+  left: 12px;
+  font-size: 18px;
+  -webkit-transition: all 0.4s ease;
+  -o-transition: all 0.4s ease;
+  transition: all 0.4s ease;
+}
+
+.accordion li i.fa-chevron-down {
+    right: 14px;
+    left: auto;
+    font-size: 16px;
+    top: 11px;
+}
+
+
+.accordion li.open i.fa-chevron-down {
+  -webkit-transform: rotate(180deg);
+  -ms-transform: rotate(180deg);
+  -o-transform: rotate(180deg);
+  transform: rotate(180deg);
+}
+
+
+
+
+.submenu {
+  display: none;
+    background-color: rgb(235, 235, 235);
+  font-size: 14px;
+}
+
+
+
+.submenu a {
+    margin-left: -18px;
+    display: block;
+    text-decoration: none;
+    color: black;
+    padding: 3px;
+    line-height: 35px;
+    -webkit-transition: all 0.25s ease;
+    -o-transition: all 0.25s ease;
+    transition: all 0.25s ease;
+}
+.submenu a:hover{
+    background: #b63b4d;
+    color: #FFF;
+}
+
+.link{
+    background-color: #D10024;
+    color: white;
+    line-height: 7px;
+}
+
+
+ 
+
+.show {display: block;}
+    #tang,#giam{
+        font-weight: 400;
+    border: 1px solid;
+    border-radius: 18px;
+    background: white;
+    line-height: 2rem;
+    width: 8rem;
+    }
+    #tang:focus,#giam:focus{
+        background-color: #D10024;
+        color: white;
+    }
+    
+     :root{
+    --white-color:#fff;
+    --black-color:#000;
+    --text-color:#333;
+    --color:#3694d7;
+    --timing:.3s;
+
+    
+
+}
+
+*{
+    box-sizing: inherit;
+}
+html{
+    font: 62.5%;
+    line-height: 1.6rem;
+    font-family: 'Roboto', sans-serif;
+    box-sizing: border-box;
+}
+.grid{
+    width: 1200px;
+    max-width: 100%;
+    margin: 0 auto;
+}
+.grid__full-width{
+    width: 100%;
+}
+.grid__row{
+    display: flex;
+    flex-wrap: wrap;
+}
+
+
+
+
+    .row {
+    --bs-gutter-x: 0 !important;
+}
+.header-inf{
+    height: 40px;
+    background-color:var(--black-color);
+}
+.header{
+    height: 120px;
+    background-color: #D10024;
+    
+}
+.navbar_{
+    display: flex;
+    justify-content: space-between;
+}
+.list{
+    list-style: none;
+    padding-left: 0;
+    margin-top: 3px;
+}
+.items{
+    margin: 0 8px;
+    min-height: 26px;
+    position: relative;
+}
+.items,
+.items-help{
+    display: inline-block;
+    font-size: 0.8rem ;
+    color: var(--white-color);
+    text-decoration: none;
+    font-weight: 300;
+}
+.items,
+.items-help{
+display: inline-flex;
+align-items: center;
+
+}
+.items:hover,
+.items-help:hover{
+    cursor: pointer;
+    color: rgba(255, 255, 255, 0.7);
+}
+.items--bold{
+    font-weight: 400;
+}
+.header-navbar__icon{
+    font-size: 0.7rem;
+    margin-right: 0.34rem;
+}
+.header__search{
+    flex: 1;
+    height: 40px;
+    background-color: var(--white-color);
+    border-radius: 50px;
+    margin-top: 1%;
+}
+.header__logo{
+    width: 200px;
+  
+}
+
+.header__cart{
+    width: 150px;
+    text-align: center;
+    margin-top: 1%;
+    padding: 1px 0px;
+    
+}
+.header-cart__icon{
+    font-size: 1rem;
+    display: inline-block;
+}
+.header-cart_color{
+    color: var(--white-color);
+    text-decoration: none;
+    display: block;
+    position: relative;
+    width: 90px;
+    text-align: center;
+    color: #FFF;
+}
+.header-cart_color:hover{
+    color: rgba(255, 255, 255, 0.7);
+}
+.icon__main{
+    display: block;
+    font-size: 18px;
+}
+
+.header__search-input{
+    flex: 1;
+    width: 80%;
+    height: 100%;
+    border: none;
+    border-radius: 50px;
+    outline: none;
+    font-size: 0.8rem;
+    color: var(--text-color);
+    padding: 0 16px;
+}
+.header__search-btn{
+    background-color: var(--black-color);
+    border: none;
+    height: 34px;
+    width: 18%;
+    border-radius: 0px 40px 40px 0px;
+    margin-left: 86%;
+    margin-top: -10.4%;
+    height: 41px;
+    
+}
+.header__search-btn-icon{
+    font-size: 1rem;
+    color: var(--white-color);
+    
+}
+.header__search-main{
+    display: block;
+}
+.menu{
+    background: #FFF;
+    border-bottom: 2px solid #E4E7ED;
+    border-top: 3px solid #D10024;
+    height: 3.3rem;
+    
+}
+.menu-list-products{
+    list-style: none;
+    text-align: center;
+    
+}
+.menu-products{
+    margin: 0 8px;
+    min-height: 26px;
+    position: relative;
+}
+.menu-products
+{
+    display: inline-block;
+    font-size: 1rem ;
+    color: var(--black-color);
+    text-decoration: none;
+    font-weight: 380;
+    display: inline-flex;
+    align-items: center;
+    margin-left: 14px;
+    margin-top: 16px;
+    
+}
+.menu-products__color{
+    text-decoration: none;
+    color: var(--black-color);
+}
+.menu-products__color:hover{
+   color: #D10024;
+}
+
+.nav-item{
+    text-decoration: none;
+    padding: 5px;
+    transition:  0.3s;
+    margin: 0 7px;
+    z-index: 1;
+    position: relative;
+}
+
+.nav-item:before{
+    content: '';
+    position: absolute;
+    bottom: -7px;
+    left: 0px;
+    width: 100%;
+    height: 5px;
+    background-color: #D10024;
+    border-radius: 8px 8px 0 0;
+    opacity: 0;
+    transition: 0.3s;
+}
+
+.nav-item:not(.is_active):hover:before{
+    opacity: 1;
+    bottom:0;
+}
+
+.nav-item:not(.is-active):hover{
+    color: #D10024;
+}
+.body-top-btn-back{
+    margin-right: 14px;
+    margin-top: 3px;
+    border: none;
+    background-color: white;
+    font-size: 20px;
+    font-weight: 400;
+}
+.body-top-btn-back:hover{
+    background-color: black;
+    color: white;
+    transition: 0.5s;
+}
+.body-top-a-home{
+    text-decoration: none;
+    color: black;
+    font-size:25px;
+}
+.body-top-a-home:hover{
+    color: #000;
+    text-decoration:underline;
+}
+.body-laptop-name{
+    font-size: 3rem;
+    margin-left: 14px;
+    font-weight: 100;
+    margin-bottom: 27px;
+}
+.body-laptop-select-fix{
+    border-bottom: 0.3px solid rgb(158, 158, 158);
+    border-top: 0.3px solid rgb(158, 158, 158);
+    padding: 11px;
+    
+    margin-bottom: 2rem;
+}
+.btn-body-detail-buy{
+    border-radius: 40px 0px 0px 40px;
+    font-size: 18px;
+}
+.btn-body-detail-add{
+    border-radius: 0;
+}
+.btn-body-detail-like{
+    border-radius: 0px 40px 40px 0px;
+    font-size: 18px;
+}
+.btn-body-detail-add:hover,
+.btn-body-detail-like:hover,
+.btn-body-detail-buy:hover{
+    transition: 0.6s;
+}
+.body-similar{
+    display: flex;
+    justify-content: space-between;
+}
+
+
+.body-similar-card{
+    border-radius: 0 !important;
+    float: left;
+    margin-bottom: 1%;
+}
+
+.body-tittle-similar{
+    margin-left: 3.2rem;
+    font-size: 27px;
+    font-weight: 700;
+    margin-top: 2rem;
+    margin-bottom: 19px;
+}
+.body-similar-cart-tittle{
+    font-size: 0.9rem;
+    font-weight: 400;
+    margin-bottom: 24px;
+
+}
+.body-similar-cart-img{
+    height: 14rem !important;
+}
+.body-similar-cart-price{
+    color: #D10024 !important;
+    font-weight: 700 !important;
+}
+.body-similar-btn-detail{
+    background-color: black !important;
+    color: white !important;
+    border-radius: 50px  !important;
+}
+.body-similar-btn-add,
+.body-similar-btn-like{
+ border-radius: 50px !important;
+}
+.body-similar-btn-add:hover,
+.body-similar-btn-like:hover{
+    background-color: rgb(235, 231, 231) !important;
+    color: black !important;
+
+}
+
+#newsletter .body-mail{
+    border-top: 2px solid #E4E7ED;
+    border-bottom: 3px solid #D10024;
+    margin-top: 30px;
+}
+.body-mail{
+    padding-top: 62px;
+    padding-bottom: 30px;
+}
+
+.newsletter{
+    text-align: center;
+    padding-top: 34px;
+}
+.newsletter p{
+    font-size: 24px;
+}
+.newsletter form{
+    position: relative;
+    max-width: 520px;
+    margin: 30px auto;
+}
+.newsletter form .font-email{
+    width: calc(100% - 160px);
+    margin-right: -12px;
+    border-radius: 40px 0px 0px 40px;
+}
+.font-email {
+    height: 40px;
+    padding: 0px 15px;
+    border: 1px solid #E4E7ED;
+    background-color:var(--white-color);
+    width: 100%;
+}
+.newsletter form .btn-sub{
+    width: 143px;
+    height: 40px;
+    background: #D10024;
+    color: #FFF;
+    border: none;
+    border-radius: 0px 40px 40px 0px;
+}
+.footer{
+    background-color: var(--black-color);
+    height: 300px;
+    border-top: #D10024 solid 3px;
+}
+.footer-about{
+    color: white;
+    margin-top: 4rem;
+}
+.footer-about-if-li{
+    list-style-type:  none;
+    color: white;
+}
+.footer-about-if-li:hover{
+    color:red;
+    cursor: pointer;
+    transition: 0.3s;
+}
+</style>
+   
+
+<body>
+    <div id="content">
+    
+        <header class="header">
+            <div class="header-inf ">
+             <div class="grid container">
+                 <nav class="navbar_ ">
+                     <ul class="list">
+                         <li class="items"><i class="header-navbar__icon fas fa-phone-alt"></i>
+                             Phone
+                         </li>
+                         <li class="items"><i class="header-navbar__icon fas fa-envelope-open"></i>
+                             Email
+                         </li>
+                         <li class="items"><i class="header-navbar__icon fas fa-map-marked-alt"></i>
+                             Address
+                         </li>
+                     </ul>
+                     <ul class="list">
+                         <li class="items">
+                             <a class=" items-help"><i class="header-navbar__icon far fa-question-circle"></i>Trợ giúp</a>
+                         </li>  
+                         <li class="items items--bold">
+                             <!-- <a class=" items-help" href="dangnhap"><i class="header-navbar__icon far fa-user"></i>Login</a> -->
+                             <a class=" items-help" >
+                                <i class="header-navbar__icon far fa-user"></i><span style="color: white;" id="user"></span>
+                                <input type="button"  value="Đăng Xuất" onclick="dangxuat()"/></a>
+                         </li>               
+                     </ul>
+                 </nav>
+                 <div class="header-with-search row">
+                     <div class="header__logo col">
+                         <a href="#">
+                             <img style="margin-top: -3%;" src="data:image/webp;base64,UklGRlICAABXRUJQVlA4TEYCAAAvqEAREMegqG0byN3BH/KeoyAQSPJHXGaBQBLP/n6radsIKn9g92O5m25OQvfgnq3FA4CBoQCABNt22zYiqQo197L/pWaAjw9M7xH9d+C2jSMpu9eLMjsl84XyH5WoKuSHC6lcyPeWTYtvv4yYxYntG8ZBOJGcZNQuwiSgMxhk1x6ryKTFJxExoqDFFmm1g9KzEhpl/0I49CvUBT7N0GhQWU7ViQ6zdh8qgGPC0tuXwOKmjFp9bZ6SRNHtbFmrF9NnhB/ubedazrrSECpCSA+fE9DgbtIn3qjuOfDSY97XForD9Kr2ScwmP6tv2Hd7EbF/N8Swiep0jCiUrmva/D1QTM5lPQ1a44SM2gaN5hP7Q961oqVr7T4np+ZOMb31sPc7MppOpfDgk5O2d5+PVTc48l1tpmt1m24/SgkDzIC0qzp/RqSS0QEjvELE6W3WlHRvzT4bUyWjAaOShXOdOOnRvpH4Q9l0uQjwIKRBe39xdJ/pRr7gG6vXTgHxPZucl1/36/X+TgZMCwuWoyeM45RBztceZxWPXMBE25DfdvBTMMh3t61KkTB/v88mXok1hrN0rcX69qfAotbMcg+KG6qyjq+Id8s9trOQQI1RO+UFEidrDOvUUP3QSEI1xs1yA3CRVLWNpBEYD94ctRIEpMeCuWYSMNwDdTB4w8maIFAHO0/y4PcPbeONhMv+RBDcWbzARz4D5TQ7iZz4vdqGhBbnqUtwr+b8UBrOHreZQR/b/To+ox7gR2zjLzMl/bxfLvdX+V9TlAI=" alt="" data-pagespeed-url-hash="2487873088" onload="pagespeed.CriticalImages.checkImageForCriticality(this);">
+                         </a>
+                     </div>
+                     <div class="header__search col order-1">
+                             <input class="header__search-input header__search-main" type="text" placeholder="Tìm kiếm sản phẩm...">
+                         <button class="header__search-btn header__search-main">
+                             <i class="header__search-btn-icon fas fa-search"></i>
+                         </button>
+                     </div>
+                     <div class="header__cart col order-5">
+                         <div class="header-cart__icon like">
+                             <a  href="/wish" class="header-cart_color"><i class="icon__main far fa-heart"></i><span style="font-size: 14px;">Yêu thích</span></a>                            
+                         </div>
+                         <div class="header-cart__icon cart">
+                             <a href="cart"  class="header-cart_color"><i class="icon__main fas fa-shopping-cart"></i><span  style="font-size: 14px;">Giỏ hàng</span></a>
+                         </div>
+                     </div>              
+                 </div>
+             </div>
+            </div>   
+         </header>
+         <!-- body -->
+         <nav  class="menu nav ">
+             <ul class="menu-list-products container" >            
+                 <li class="menu-products" > 
+                    <a href="/laptop" class="menu-products__color  nav-item is-active"active-color="DarkSlateBlue"> Laptop</a>
+                 </li>
+
+                 <li class="menu-products">
+                     <a href="/linhkienpc" class="menu-products__color  nav-item"active-color="DarkSlateBlue"> Linh kiện PC</a>
+                 </li>
+                 <li class="menu-products">
+                     <a href="/manhinh" class="menu-products__color  nav-item"active-color="DarkSlateBlue"> Màn hình</a>
+                 </li>
+                 <li class="menu-products">
+                     <a href="/banphimchuot" class="menu-products__color  nav-item"active-color="DarkSlateBlue"> Bàn phím+Chuột</a>
+                 </li>
+                 <li class="menu-products">
+                     <a href="/tainghe" class="menu-products__color  nav-item"active-color="DarkSlateBlue"> Tai nghe</a>
+                 </li>            
+             </ul>      
+         </nav>
+    
+                <div class="body-products container">
+    
+                    <div class="body-top">                
+                        <button class="body-top-btn-back" onclick="goBack()"><i class="fas fa-long-arrow-alt-left"></i>Trở lại</button>
+                        <a class="body-top-a-home" href="index"><span>Trang chủ</span></a>
+                    </div>
+                    <div class="body-laptop">
+                        <h1 class="body-laptop-name">Laptop</h1>
+                    </div>
+                    <div class="body-laptop-select-fix row">
+                            <ul id="accordion" class="accordion" >
+                                <li>
+                                  <div class="link"></i>Xếp theo giá<i class="fa fa-chevron-down"></i></div>
+                                  <ul class="submenu">
+                                    <li><a href="#home" onclick="TangDan()" >Giá (thấp - cao)</a></li>
+                                    <li><a href="#about" onclick="GiamDan()">Giá (cao - thấp)</a></li>  
+                                  </ul>
+                                </li>
+                              </ul>
+                              <ul id="accordions" class="accordion" style="    margin-left: 23px;">
+                                <li>
+                                  <div class="link" style="background-color: black;"></i>Xếp theo hãng<i class="fa fa-chevron-down"></i></div>
+                                  <ul class="submenu">
+                                    <li><a href="#home" onclick="TangDan()">1</a></li>
+                                    <li><a href="#about" onclick="GiamDan()">1</a></li>
+                                    <li><a href="#home" onclick="TangDan()">1</a></li>
+                                    <li><a href="#about" onclick="GiamDan()">1</a></li>
+                                    <li><a href="#home" onclick="TangDan()">1</a></li>
+                                    <li><a href="#about" onclick="GiamDan()">1</a></li>
+                                    <li><a href="#about" onclick="GiamDan()">1</a></li>
+                                  </ul>
+                                </li>                                                                                              
+                              </ul>
+                    </div>                    
+                    <div id="laptop-dulieu">   
+                                             
+                    </div>                                         
+                </div>
+                <!-- back -->
+                 <script>
+                    function goBack() {
+                      window.history.back();
+                    }
+                </script>
+                    <!-- end back -->
+                    <script>
+                        $(function() {
+                          var Accordion = function(el, multiple) {
+                              this.el = el || {};
+                              this.multiple = multiple || false;
+
+                              // Variables privadas
+                              var links = this.el.find('.link');
+                              // Evento
+                              links.on('click', {el: this.el, multiple: this.multiple}, this.dropdown)
+                          }
+
+                          Accordion.prototype.dropdown = function(e) {
+                              var $el = e.data.el;
+                                  $this = $(this),
+                                  $next = $this.next();
+
+                              $next.slideToggle();
+                              $this.parent().toggleClass('open');
+
+                              if (!e.data.multiple) {
+                                  $el.find('.submenu').not($next).slideUp().parent().removeClass('open');
+                              };
+                          }	
+
+                          var accordion = new Accordion($('#accordion'), false);
+                              });
+                    </script>       
+
+                    <script>
+                        $(function() {
+                        var Accordion = function(el, multiple) {
+                            this.el = el || {};
+                            this.multiple = multiple || false;
+
+                            // Variables privadas
+                            var links = this.el.find('.link');
+                            // Evento
+                            links.on('click', {el: this.el, multiple: this.multiple}, this.dropdown)
+                        }
+
+                        Accordion.prototype.dropdown = function(e) {
+                            var $el = e.data.el;
+                                $this = $(this),
+                                $next = $this.next();
+
+                            $next.slideToggle();
+                            $this.parent().toggleClass('open');
+
+                            if (!e.data.multiple) {
+                                $el.find('.submenu').not($next).slideUp().parent().removeClass('open');
+                            };
+                        }	
+
+                        var accordions = new Accordion($('#accordions'), false);
+                            });
+                    </script>
+            
+         <div class="body-mail" id="newsletter" style="clear: both;">
+             <div class="body-mail-send">
+                 <div class="body-mail-send row" style="    border-top: #E4E7ED solid 1px;">
+                     <div class="col-md-12">
+                         <div class="newsletter">
+                             <p class="sub-mail"><strong>ĐĂNG KÝ</strong> để nhận thêm thông tin.</p>
+                             <form action="">
+                                 <input type="text" class="font-email" placeholder="Hãy để lại email của bạn ">
+                                 <button class="btn-sub">
+                                     <i class="fas fa-paper-plane" style="font-size: 19px; font-weight: bold;"></i>
+                                     Đăng ký
+                                    
+                                 </button>
+                             </form>
+                         </div>
+                     </div>
+                 </div>
+             </div>
+         </div>
+           
+            <div class="footer ">
+             <div class="footer-text  row">
+                 <div class="col-md-3 col-xs-6 container">
+                     <h3 class="footer-about">ABOUT US</h3>
+                     <ul class="footer-about-if">
+                         <li class="footer-about-if-li">Nguyễn Gia Bảo</li>
+                         <li class="footer-about-if-li">Trần Cao Tiến</li>
+                         <li class="footer-about-if-li">Trần Viết Trung Hiếu</li>
+                     </ul>
+                 </div>
+                 <div class="col-md-3 col-xs-6">
+                     
+                 </div>
+             </div>
+            </div>
+    </div>
+    
+
+</body>
+</html>
